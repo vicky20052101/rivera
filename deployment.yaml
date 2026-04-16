@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rivera-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rivera-web
+  template:
+    metadata:
+      labels:
+        app: rivera-web
+    spec:
+      containers:
+      - name: rivera-web
+        image: yourdockerhub/rivera-web:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rivera-service
+spec:
+  type: NodePort
+  selector:
+    app: rivera-web
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30020
